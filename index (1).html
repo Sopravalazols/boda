@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ilan &amp; Cata | Fotos</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📷</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alice&family=Noto+Serif:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --fondo: #EFE8E8;
+    --vino: #8F0F0F;
+    --vino-oscuro: #6E0A0A;
+    --rosa: #B98C8C;
+    --pista: #DDCACA;
+    --titulo: 'Noto Serif', Georgia, serif;
+    --texto: 'Alice', Georgia, 'Times New Roman', serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--fondo);
+    color: var(--vino);
+    font-family: var(--texto);
+    font-size: 18px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+  .pagina { max-width: 30rem; margin: 0 auto; padding: 2.5rem 1.75rem 4rem; }
+
+  .nombres {
+    font-family: var(--titulo);
+    font-weight: 400;
+    font-size: clamp(2rem, 9.5vw, 3rem);
+    letter-spacing: .3em;
+    line-height: 1.1;
+    margin: 0;
+  }
+  .fecha {
+    margin: .9rem 0 0;
+    font-weight: 700;
+    font-size: clamp(.95rem, 4.4vw, 1.2rem);
+    letter-spacing: .26em;
+    white-space: nowrap;
+  }
+  .regla { width: 55%; height: 2px; background: var(--vino); border: 0; margin: 1.5rem 0 0; }
+  .intro { margin: 1.5rem 0 0; font-size: 1.1rem; }
+
+  .campo { margin: 1.5rem 0 0; }
+  .campo label { display: block; font-size: 1rem; margin-bottom: .1rem; }
+  .campo input {
+    width: 100%; font: inherit; color: var(--vino); background: transparent;
+    border: 0; border-bottom: 1px solid var(--rosa); border-radius: 0; padding: .4rem 0;
+  }
+  .campo input::placeholder { color: var(--rosa); }
+  .campo input:focus { outline: none; border-bottom-color: var(--vino); }
+
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .boton {
+    display: block; width: 100%; margin-top: 1.5rem;
+    background: var(--vino); color: var(--fondo);
+    font-family: var(--titulo); font-size: 1rem; letter-spacing: .18em; text-transform: uppercase; text-align: center;
+    padding: 1.1rem 1rem; cursor: pointer; user-select: none; -webkit-tap-highlight-color: transparent;
+    transition: background-color .15s ease, transform .15s ease;
+  }
+  .boton:hover { background: var(--vino-oscuro); }
+  .boton:active { background: var(--vino-oscuro); transform: scale(.98); }
+  #selector:focus-visible + .boton { outline: 2px solid var(--vino); outline-offset: 4px; }
+
+  .aviso { margin: .9rem 0 0; font-size: .95rem; }
+  .resumen { margin: 2rem 0 0; font-size: 1.1rem; font-weight: 700; }
+  .resumen:empty { display: none; }
+
+  .lista { list-style: none; margin: 1rem 0 0; padding: 0; }
+  .item { padding: .85rem 0; border-top: 1px solid var(--pista); }
+  .item:last-child { border-bottom: 1px solid var(--pista); }
+  .fila { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; font-size: .95rem; }
+  .nombre-archivo { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .estado { flex: none; font-variant-numeric: tabular-nums; color: var(--rosa); }
+  .barra { height: 2px; margin-top: .5rem; background: var(--pista); overflow: hidden; }
+  .barra span { display: block; height: 100%; width: 0; background: var(--vino); transition: width .3s ease; }
+  .item.listo .estado, .item.error .estado { color: var(--vino); font-weight: 700; }
+  .quitar {
+    flex: none; background: transparent; border: 0; color: var(--vino); cursor: pointer;
+    font-family: var(--titulo); font-size: 1.35rem; line-height: 1; padding: 0 .15rem; margin-left: -.25rem;
+  }
+  .quitar:disabled { opacity: .35; cursor: default; }
+  .quitar:focus-visible { outline: 2px solid var(--vino); outline-offset: 2px; }
+  .detalle { margin: .35rem 0 0; font-size: .9rem; font-style: italic; }
+  .reintentar {
+    margin-top: .5rem; font-family: var(--titulo); font-size: .8rem; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--vino); background: transparent; border: 1px solid var(--vino); padding: .4rem .9rem; cursor: pointer;
+  }
+  .reintentar:focus-visible { outline: 2px solid var(--vino); outline-offset: 2px; }
+
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<main class="pagina">
+  <h1 class="nombres">ILAN&amp;CATA</h1>
+  <p class="fecha">11 | OCTUBRE | 2026</p>
+  <hr class="regla">
+
+  <p class="intro">Gracias por acompañarnos en un día tan especial. Nos encantaría ver las fotos y videos que sacaron; compártelos aquí y nos llegan directo, en su calidad original.</p>
+
+  <div class="campo">
+    <label for="invitado">Tu nombre</label>
+    <input id="invitado" type="text" maxlength="40" autocomplete="name" placeholder="Opcional, para saber de quién son">
+  </div>
+
+  <input id="selector" class="sr" type="file" accept="image/*,video/*" multiple>
+  <label for="selector" class="boton">Subir fotos y videos</label>
+
+  <p class="aviso">Puedes elegir varios archivos a la vez y quitar cualquiera con la ×. Deja esta página abierta hasta que todos digan Listo.</p>
+
+  <p class="resumen" id="resumen" aria-live="polite"></p>
+  <ul class="lista" id="lista"></ul>
+</main>
+
+<script>
+  const API = 'https://script.google.com/macros/s/AKfycbzIyM8FyHowPRDdGqpDee3dEEJ5CVF9TPJwevgbdQfTyvDpBz0ZVkMY8ow5l5O5m_ZEOw/exec';
+  const MAX_MB = 2048;
+  const TROZO_DIRECTO = 32 * 1024 * 1024; // directo a Drive (múltiplo de 256 KB)
+  const TROZO_PROXY = 8 * 1024 * 1024;    // plan B, pasando por Apps Script
+  const SIMULTANEOS = 2;                  // archivos subiendo a la vez por invitado
+  const MAX_INTENTOS = 8;
+
+  const items = [];
+  const cola = [];
+  let activos = 0;
+  let modoDirecto = true;
+  let directoFunciona = false;
+  let wakeLock = null;
+
+  const $ = (id) => document.getElementById(id);
+
+  $('selector').addEventListener('change', (e) => {
+    const archivos = Array.from(e.target.files || []);
+    e.target.value = '';
+    archivos.forEach(agregar);
+    bombear();
+  });
+
+  window.addEventListener('beforeunload', (e) => {
+    if (ocupado()) { e.preventDefault(); e.returnValue = ''; }
+  });
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && ocupado()) activarPantalla();
+  });
+
+  const ocupado = () => activos > 0 || cola.length > 0;
+
+  // ---------- lista ----------
+  function agregar(file) {
+    const li = document.createElement('li');
+    li.className = 'item';
+    li.innerHTML = '<div class="fila"><span class="nombre-archivo"></span><span class="estado">En cola</span>' +
+      '<button class="quitar" type="button" aria-label="Quitar" title="Quitar">×</button></div><div class="barra"><span></span></div>';
+    li.querySelector('.nombre-archivo').textContent = file.name + ' (' + formatoTamano(file.size) + ')';
+    $('lista').prepend(li);
+
+    const item = { file, li, estado: 'cola', cancelado: false, xhr: null, cred: null };
+    items.push(item);
+    li.querySelector('.quitar').onclick = () => quitar(item);
+
+    if (file.size === 0) return marcarError(item, 'El archivo está vacío.', false);
+    if (file.size > MAX_MB * 1024 * 1024) return marcarError(item, 'Supera el máximo de ' + MAX_MB + ' MB.', false);
+    cola.push(item);
+  }
+
+  function bombear() {
+    while (activos < SIMULTANEOS && cola.length) {
+      const item = cola.shift();
+      activos++;
+      activarPantalla();
+      subir(item).finally(() => {
+        activos--;
+        if (!ocupado()) soltarPantalla();
+        bombear();
+      });
+    }
+    actualizarResumen();
+  }
+
+  async function subir(item) {
+    item.estado = 'subiendo';
+    try {
+      await subirArchivo(item);
+      if (!item.cancelado) marcarListo(item);
+    } catch (err) {
+      if (!item.cancelado) marcarError(item, mensaje(err), true);
+    }
+  }
+
+  async function quitar(item) {
+    if (item.estado === 'cola') {
+      cola.splice(cola.indexOf(item), 1);
+      retirar(item);
+    } else if (item.estado === 'subiendo') {
+      item.cancelado = true;
+      if (item.xhr) item.xhr.abort();
+      retirar(item); // la subida a medias no crea archivo en Drive
+    } else if (item.estado === 'error') {
+      retirar(item);
+    } else if (item.estado === 'listo') {
+      if (!item.cred) return retirar(item);
+      if (!confirm('¿Eliminar "' + item.file.name + '"? Lo vamos a borrar de nuestra carpeta.')) return;
+      const boton = item.li.querySelector('.quitar');
+      boton.disabled = true;
+      ponerEstado(item, 'Eliminando');
+      try {
+        await conReintentos(() => llamar('eliminarArchivo', item.cred.id, item.cred.token));
+        retirar(item);
+      } catch (err) {
+        boton.disabled = false;
+        ponerEstado(item, 'Listo');
+        alert('No se pudo eliminar: ' + mensaje(err));
+      }
+    }
+    actualizarResumen();
+  }
+
+  function retirar(item) {
+    item.estado = 'quitado';
+    item.li.remove();
+  }
+
+  // ---------- subida ----------
+  async function subirArchivo(item) {
+    const f = item.file;
+    const invitado = $('invitado').value.trim();
+    ponerEstado(item, 'Preparando');
+
+    const url = await conReintentos(() =>
+      llamar('iniciarSubida', { nombre: f.name, tipo: f.type, tamano: f.size, invitado, origen: location.origin })
+    );
+
+    let inicio = 0;
+    let intentos = 0;
+    while (inicio < f.size) {
+      if (item.cancelado) throw new Error('Cancelado');
+      try {
+        let r;
+        if (modoDirecto) {
+          try {
+            r = await parteDirecta(item, url, inicio);
+          } catch (err) {
+            if (err.red && !directoFunciona && !item.cancelado) { modoDirecto = false; continue; } // plan B
+            throw err;
+          }
+        } else {
+          r = await parteProxy(item, url, inicio);
+        }
+        intentos = 0;
+        if (r.listo) { item.cred = r.cred || null; inicio = f.size; }
+        else inicio = r.siguiente;
+      } catch (err) {
+        if (item.cancelado) throw err;
+        intentos++;
+        if (intentos > MAX_INTENTOS) throw err;
+        ponerEstado(item, 'Reconectando');
+        await esperar(pausa(intentos));
+        try {
+          const e = await llamar('estadoSubida', url, f.size);
+          if (e.listo) { item.cred = e.cred || null; inicio = f.size; } else inicio = e.siguiente;
+        } catch (_) { /* se reintenta desde el mismo punto */ }
+      }
+      ponerProgreso(item, inicio / f.size);
+    }
+
+    // Al subir directo, pedimos la credencial para poder eliminarlo después
+    if (!item.cred && !item.cancelado) {
+      try {
+        const e = await conReintentos(() => llamar('estadoSubida', url, f.size));
+        item.cred = e.cred || null;
+      } catch (_) {}
+    }
+  }
+
+  function parteDirecta(item, url, inicio) {
+    const f = item.file;
+    const fin = Math.min(inicio + TROZO_DIRECTO, f.size);
+    return new Promise((ok, mal) => {
+      const x = new XMLHttpRequest();
+      item.xhr = x;
+      x.open('PUT', url);
+      x.setRequestHeader('Content-Range', 'bytes ' + inicio + '-' + (fin - 1) + '/' + f.size);
+      x.upload.onprogress = (e) => { if (e.lengthComputable) ponerProgreso(item, (inicio + e.loaded) / f.size); };
+      x.onload = () => {
+        item.xhr = null;
+        if (x.status === 200 || x.status === 201) { directoFunciona = true; ok({ listo: true }); }
+        else if (x.status === 308) { directoFunciona = true; ok({ listo: false, siguiente: siguienteDesde(x.getResponseHeader('Range'), fin) }); }
+        else mal(new Error('Error al subir (' + x.status + ').'));
+      };
+      x.onerror = () => { item.xhr = null; const e = new Error('Se perdió la conexión.'); e.red = true; mal(e); };
+      x.onabort = () => { item.xhr = null; mal(new Error('Cancelado')); };
+      x.send(f.slice(inicio, fin));
+    });
+  }
+
+  async function parteProxy(item, url, inicio) {
+    const f = item.file;
+    const b64 = await leerBase64(f.slice(inicio, Math.min(inicio + TROZO_PROXY, f.size)));
+    if (item.cancelado) throw new Error('Cancelado');
+    return llamar('subirParte', url, b64, inicio, f.size);
+  }
+
+  // ---------- helpers ----------
+  async function llamar(accion, ...args) {
+    const r = await fetch(API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // evita el preflight CORS
+      body: JSON.stringify({ accion, args }),
+      credentials: 'omit', // no envía las cuentas de Google del invitado
+      redirect: 'follow'
+    });
+    if (!r.ok) throw new Error('Error de conexión (' + r.status + ').');
+    const j = await r.json();
+    if (!j.ok) throw new Error(j.error);
+    return j.data;
+  }
+
+  async function conReintentos(tarea) {
+    for (let i = 1; ; i++) {
+      try { return await tarea(); }
+      catch (err) {
+        const definitivo = /máximo|vacío|Solo se aceptan|cerradas|configurar|autorizado/.test(mensaje(err));
+        if (definitivo || i > MAX_INTENTOS) throw err;
+        await esperar(pausa(i));
+      }
+    }
+  }
+
+  // Espera creciente con azar, para que muchos invitados no reintenten al mismo tiempo
+  const pausa = (n) => Math.min(20000, 1000 * 2 ** (n - 1)) * (0.5 + Math.random());
+  const esperar = (ms) => new Promise((r) => setTimeout(r, ms));
+
+  function siguienteDesde(rango, porDefecto) {
+    if (!rango) return porDefecto;
+    const m = /-(\d+)\s*$/.exec(rango);
+    return m ? Number(m[1]) + 1 : porDefecto;
+  }
+
+  function leerBase64(blob) {
+    return new Promise((ok, mal) => {
+      const r = new FileReader();
+      r.onload = () => ok(String(r.result).split(',')[1] || '');
+      r.onerror = () => mal(r.error || new Error('No se pudo leer el archivo.'));
+      r.readAsDataURL(blob);
+    });
+  }
+
+  function mensaje(err) {
+    const m = err && err.message ? String(err.message).replace(/^Exception:\s*/, '') : '';
+    return m || 'Revisa tu conexión e inténtalo de nuevo.';
+  }
+
+  function ponerEstado(item, texto) { item.li.querySelector('.estado').textContent = texto; }
+
+  function ponerProgreso(item, p) {
+    const pct = Math.min(99, Math.floor(p * 100)); // el 100 % lo marca "Listo"
+    item.li.querySelector('.barra span').style.width = pct + '%';
+    ponerEstado(item, pct + ' %');
+  }
+
+  function marcarListo(item) {
+    item.estado = 'listo';
+    item.li.classList.add('listo');
+    item.li.querySelector('.barra span').style.width = '100%';
+    ponerEstado(item, 'Listo');
+    const b = item.li.querySelector('.quitar');
+    b.setAttribute('aria-label', 'Eliminar');
+    b.title = 'Eliminar';
+    actualizarResumen();
+  }
+
+  function marcarError(item, texto, reintentable) {
+    item.estado = 'error';
+    item.li.classList.add('error');
+    ponerEstado(item, 'No se subió');
+    const p = document.createElement('p');
+    p.className = 'detalle';
+    p.textContent = texto;
+    item.li.appendChild(p);
+    if (reintentable) {
+      const b = document.createElement('button');
+      b.className = 'reintentar';
+      b.type = 'button';
+      b.textContent = 'Reintentar';
+      b.onclick = () => {
+        p.remove(); b.remove();
+        item.li.classList.remove('error');
+        item.li.querySelector('.barra span').style.width = '0';
+        Object.assign(item, { estado: 'cola', cancelado: false, xhr: null, cred: null });
+        ponerEstado(item, 'En cola');
+        cola.push(item);
+        bombear();
+      };
+      item.li.appendChild(b);
+    }
+    actualizarResumen();
+  }
+
+  function actualizarResumen() {
+    const listos = items.filter((i) => i.estado === 'listo').length;
+    const fallidos = items.filter((i) => i.estado === 'error').length;
+    let t = '';
+    if (ocupado()) t = 'Subiendo, deja esta página abierta.';
+    else if (listos > 0) t = listos === 1 ? 'Llegó 1 archivo. Gracias por compartirlo.' : 'Llegaron ' + listos + ' archivos. Gracias por compartirlos.';
+    if (!ocupado() && fallidos > 0) t += (t ? ' ' : '') + (fallidos === 1 ? '1 no se pudo subir.' : fallidos + ' no se pudieron subir.');
+    $('resumen').textContent = t;
+  }
+
+  function formatoTamano(b) {
+    if (b >= 1024 * 1024 * 1024) return (b / 1024 / 1024 / 1024).toFixed(1) + ' GB';
+    if (b >= 1024 * 1024) return (b / 1024 / 1024).toFixed(1) + ' MB';
+    return Math.max(1, Math.round(b / 1024)) + ' KB';
+  }
+
+  async function activarPantalla() {
+    try { if ('wakeLock' in navigator && !wakeLock) wakeLock = await navigator.wakeLock.request('screen'); }
+    catch (_) { wakeLock = null; }
+  }
+  function soltarPantalla() {
+    try { if (wakeLock) wakeLock.release(); } catch (_) {}
+    wakeLock = null;
+  }
+</script>
+</body>
+</html>
